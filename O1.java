@@ -1,6 +1,6 @@
 import java.util.stream.IntStream;
 
-public class Task1{
+public class O1{
     public static void main(String[] args){
         int[] arr ={10,20,30,40,50};
         int a=50;
