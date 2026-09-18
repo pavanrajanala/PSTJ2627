@@ -1,0 +1,142 @@
+# Question 2 — Think & Analysis: Strassen’s Matrix Multiplication
+
+## 1. Divide A and B into four submatrices.
+
+Strassen’s algorithm divides each N × N matrix into four N/2 × N/2 submatrices.
+
+For matrix A:
+
+A = | A11  A12 |
+    | A21  A22 |
+
+For matrix B:
+
+B = | B11  B12 |
+    | B21  B22 |
+
+The division allows each smaller matrix to be multiplied recursively.
+
+---
+
+## 2. Calculate the seven Strassen products recursively.
+
+Instead of performing eight recursive multiplications, Strassen’s algorithm calculates seven products:
+
+M1 = (A11 + A22)(B11 + B22)
+
+M2 = (A21 + A22)B11
+
+M3 = A11(B12 - B22)
+
+M4 = A22(B21 - B11)
+
+M5 = (A11 + A12)B22
+
+M6 = (A21 - A11)(B11 + B12)
+
+M7 = (A12 - A22)(B21 + B22)
+
+Each product is calculated recursively until the base case is reached.
+
+---
+
+## 3. Combine the seven products to obtain the four result submatrices.
+
+After calculating M1 to M7, the four submatrices of the result matrix C are calculated as:
+
+C11 = M1 + M4 - M5 + M7
+
+C12 = M3 + M5
+
+C21 = M2 + M4
+
+C22 = M1 - M2 + M3 + M6
+
+The four submatrices are then combined to form the final N × N result matrix.
+
+---
+
+## 4. Determine the base case for the recursion.
+
+The base case occurs when the matrix size becomes 1 × 1.
+
+For two 1 × 1 matrices:
+
+A = [a]
+
+B = [b]
+
+The result is:
+
+C = [a × b]
+
+At this point, no further division is required.
+
+For practical implementations, a larger threshold can also be used where conventional multiplication is performed for small matrices to reduce recursion overhead.
+
+---
+
+## 5. Analyze the time complexity and compare it with O(N³) conventional multiplication.
+
+Conventional matrix multiplication requires eight recursive multiplications when matrices are divided into four submatrices, resulting in:
+
+O(N³)
+
+Strassen’s algorithm performs only seven recursive multiplications.
+
+Its recurrence relation is:
+
+T(N) = 7T(N/2) + O(N²)
+
+Using the Master Theorem, the time complexity becomes:
+
+O(N^log₂7)
+
+Since log₂7 is approximately 2.807:
+
+O(N^2.807)
+
+Therefore:
+
+Conventional multiplication → O(N³)
+
+Strassen’s multiplication → O(N^2.807)
+
+Strassen’s algorithm has a better asymptotic time complexity for large matrices.
+
+---
+
+## 6. Consider the trade-off between fewer multiplications and additional additions/memory operations.
+
+Strassen’s algorithm reduces the number of multiplications from 8 to 7 at every recursive level.
+
+However, it requires additional matrix additions and subtractions to calculate the seven products and combine the results.
+
+It also requires extra memory for temporary submatrices and intermediate results.
+
+Therefore, Strassen’s algorithm has the following trade-off:
+
+- Fewer multiplication operations
+- More addition and subtraction operations
+- More temporary memory usage
+- Additional recursive function-call overhead
+
+For large matrices, reducing multiplication operations can provide a performance advantage.
+
+For small matrices, conventional multiplication may be faster because it has less overhead and requires less temporary memory.
+
+A hybrid implementation can therefore use Strassen’s algorithm for large matrices and conventional multiplication for small matrices.
+
+---
+
+## Conclusion
+
+Strassen’s Matrix Multiplication uses divide and conquer to divide matrices into smaller submatrices.
+
+The main optimization is reducing the number of recursive multiplications from 8 to 7.
+
+Its time complexity is approximately O(N^2.807), compared with O(N³) for conventional matrix multiplication.
+
+However, the improvement comes with additional additions, subtractions, temporary memory usage, and recursion overhead.
+
+For practical implementation, using conventional multiplication for small matrices and Strassen’s algorithm for larger matrices can reduce unnecessary computation.
